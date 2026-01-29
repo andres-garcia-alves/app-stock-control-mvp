@@ -1,0 +1,74 @@
+<br/>
+<h4>Transferir Stock entre Locales</h4>
+
+<br/>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card mt-4">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-dark">
+            <div class="gridCell floatLeft">
+              <input type="text" class="gridCell input-group-btn" [(ngModel)]="filtroProducto" (keyup)="filter()" placeholder="Filtrar Producto" name="filtroProducto">
+            </div>
+            <div class="gridCell floatLeft">
+              <input type="text" class="gridCell" [(ngModel)]="filtroLocal" (keyup)="filter()" placeholder="Filtrar Local" name="filtroLocal">
+            </div>
+            <div class="gridCell floatLeft textRight">Cantidad</div>
+          </li>
+        </ul>
+        <ul class="list-group">
+          @for (item of filteredStock; track item) {
+            <li class="list-group-item list-group-item-action"
+              (click)="select(item)"
+              [class.active] = "item.productoId == seleccionado.productoId && item.localId == seleccionado.localId">
+              <span class="badge badge-primary floatLeft">{{ item.id }}</span>
+              <div class="gridCell floatLeft">{{ item.productoNombre }}</div>
+              <div class="gridCell floatLeft">{{ item.localNombre }}</div>
+              <div class="gridCell floatLeft textRight">{{ item.cantidad }} unid.</div>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="card mt-4">
+        <form [formGroup]="stockForm">
+          <div class="card-body">
+
+            <div class="card-title">Destino...</div>
+            <div class="form-group">
+              <select id="destino" class="form-control mt-3" formControlName="destino" placeholder="Destino">
+                <option Value="0">** Elegir Local **</option>
+                @for (local of locales; track local) {
+                  <option [(ngValue)]="local.id">
+                    {{ local.nombre }}
+                  </option>
+                }
+              </select>
+            </div>
+            <input id="cantidad" type="number" class="form-control mt-3" formControlName="cantidad" placeholder="Cantidad">
+
+            <button class="btn btn-primary ml-3 mr-5 mt-3" (click)="transferir2()">Transferir</button>
+            @if (seleccionado.productoId !== 0) {
+              <button class="btn btn-secondary ml-3 mr-5 mt-3" (click)="unselect()">Cancelar</button>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  @if (loading) {
+    <div>loading...</div>
+  }
+  @if (messages) {
+    <div style="white-space: pre;">{{ messages }}</div>
+  }
+  @if (debug) {
+    <pre>debug:<br/>{{ debug | json }}</pre>
+  }
+  <br/>
+</div>

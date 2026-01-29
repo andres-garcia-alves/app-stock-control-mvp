@@ -1,0 +1,46 @@
+<br/>
+<h4>Ventas - Registrar Venta</h4>
+
+<br/>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card mt-4">
+        <div class="card-body">
+          <div class="card-title">
+            Editar...
+          </div>
+          <form [formGroup]="ventaForm">
+            <div class="form-group">
+              <select id="selectProductos" class="form-control mt-3" formControlName="selectProductos">
+                <option Value="0">** Elegir Producto **</option>
+                @for (producto of productos; track producto) {
+                  <option [(ngValue)]="producto.id">
+                    {{ producto.nombre }}
+                  </option>
+                }
+              </select>
+              <input id="inputCantidad" type="number" class="form-control mt-3" formControlName="inputCantidad" placeholder="Cantidad">
+            </div>
+          </form>
+          <button class="btn btn-primary" (click)="add()">Registrar Venta</button>
+          <button class="btn btn-secondary ml-3 mr-5" (click)="unselect()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br/>
+
+  @if (loading) {
+    <div>loading...</div>
+  }
+  @if (messages) {
+    <div style="white-space: pre;">{{ messages }}</div>
+  }
+  @if (debug) {
+    <pre>debug:<br/>{{ debug | json }}</pre>
+  }
+  <br/>
+</div>

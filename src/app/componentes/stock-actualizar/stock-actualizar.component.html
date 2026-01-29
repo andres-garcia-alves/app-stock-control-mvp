@@ -1,0 +1,86 @@
+<br/>
+<h4>Modificación de Stock</h4>
+
+<br/>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-dark">
+          <div class="gridCell floatLeft">
+            <input type="text" class="gridCell input-group-btn" [(ngModel)]="filtroProducto" (keyup)="filter()" placeholder="Filtrar Producto" name="filtroProducto">
+          </div>
+          <div class="gridCell floatLeft">
+            <input type="text" class="gridCell" [(ngModel)]="filtroLocal" (keyup)="filter()" placeholder="Filtrar Local" name="filtroLocal">
+          </div>
+          <div class="gridCell floatLeft textRight">Cantidad</div>
+        </li>
+      </ul>
+      <ul class="list-group">
+        @for (item of filteredStock; track item) {
+          <li class="list-group-item list-group-item-action"
+            (click)="select(item)"
+            [class.active] = "item.productoId == seleccionado.productoId && item.localId == seleccionado.localId">
+            <span class="badge badge-primary floatLeft">{{ item.id }}</span>
+            <div class="gridCell floatLeft">{{ item.productoNombre }}</div>
+            <div class="gridCell floatLeft">{{ item.localNombre }}</div>
+            <div class="gridCell floatLeft textRight">{{ item.cantidad }} unid.</div>
+          </li>
+        }
+      </ul>
+
+      <div class="card mt-4">
+        <div class="card-body">
+          <div class="card-title">
+            Editar...
+          </div>
+          <form [formGroup]="stockForm">
+            <div class="form-group">
+              <select id="selectProductos" class="form-control mt-3" formControlName="selectProductos"
+                (change)="selectProductosOnChange($event)">
+                @for (producto of productos; track producto) {
+                  <option
+                    [value]="producto.id" [selected]="producto.id == seleccionado.productoId">
+                    {{ producto.nombre }}
+                  </option>
+                }
+              </select>
+              <select id="selectLocales" class="form-control mt-3" formControlName="selectLocales"
+                (change)="selectLocalesOnChange($event)">
+                @for (local of locales; track local) {
+                  <option
+                    [value]="local.id" [selected]="local.id == seleccionado.localId">
+                    {{ local.nombre }}
+                  </option>
+                }
+              </select>
+              <input id="inputCantidad" type="number" class="form-control mt-3" formControlName="inputCantidad" placeholder="Cantidad"
+                (value)="seleccionado.cantidad" (change)="inputCantidadOnChange()">
+              </div>
+            </form>
+            <button class="btn btn-primary" (click)="addOrEdit()">{{ seleccionado.productoId === 0 ? 'Crear Nuevo' : 'Modificar' }}</button>
+            @if (seleccionado.productoId !== 0) {
+              <button class="btn btn-secondary ml-3 mr-5" (click)="unselect()">Cancelar</button>
+            }
+            @if (seleccionado.productoId !== 0) {
+              <button class="btn btn-danger ml-5" (click)="delete()">Eliminar</button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br/>
+    @if (loading) {
+      <div>loading...</div>
+    }
+    @if (messages) {
+      <div style="white-space: pre;">{{ messages }}</div>
+    }
+    @if (debug) {
+      <pre>debug:<br/>{{ debug | json }}</pre>
+    }
+    <br/>
+  </div>
