@@ -70,7 +70,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 v1.0 (2021.05.26) - Initial release.  
 v1.1 (2023.07.06) - Upgrade to Angular 13.  
-v1.1 (2026.01.28) - Upgrade to Angular 20.  
+v1.1 (2026.01.28) - Upgrade to Angular 20, minor bug fixes.  
 
 &nbsp;
 
